@@ -1,0 +1,157 @@
+{
+    "buildingType": {
+        "residential": {
+            "architecturalStyle": {
+                "modern": {
+                    "roomType": [
+                        "bedroom",
+                        "living room",
+                        "kitchen",
+                        "bathroom"
+                    ],
+                    "roomSize": [
+                        "small",
+                        "medium",
+                        "large"
+                    ],
+                    "roomShape": [
+                        "square",
+                        "rectangular"
+                    ]
+                },
+                "art deco": {
+                    "roomType": [
+                        "bedroom",
+                        "living room",
+                        "kitchen",
+                        "bathroom",
+                        "library",
+                        "dining room"
+                    ],
+                    "roomSize": [
+                        "medium",
+                        "large"
+                    ],
+                    "roomShape": [
+                        "square",
+                        "rectangular",
+                        "oval"
+                    ]
+                },
+                "gothic": {
+                    "roomType": [
+                        "bedroom",
+                        "living room",
+                        "kitchen",
+                        "bathroom",
+                        "library",
+                        "study",
+                        "dining room"
+                    ],
+                    "roomSize": [
+                        "medium",
+                        "large"
+                    ],
+                    "roomShape": [
+                        "square",
+                        "rectangular",
+                        "circular"
+                    ]
+                }
+            }
+        },
+        "commercial": {
+            "businessType": {
+                "office": {
+                    "roomType": [
+                        "office",
+                        "conference room",
+                        "reception area",
+                        "kitchen",
+                        "bathroom"
+                    ],
+                    "roomSize": [
+                        "small",
+                        "medium",
+                        "large"
+                    ],
+                    "roomShape": [
+                        "square",
+                        "rectangular"
+                    ]
+                },
+                "restaurant": {
+                    "roomType": [
+                        "kitchen",
+                        "dining room",
+                        "bar",
+                        "bathroom",
+                        "storage room"
+                    ],
+                    "roomSize": [
+                        "medium",
+                        "large"
+                    ],
+                    "roomShape": [
+                        "square",
+                        "rectangular",
+                        "circular"
+                    ]
+                },
+                "retail": {
+                    "roomType": [
+                        "sales floor",
+                        "storage",
+                        "office",
+                        "bathroom"
+                    ],
+                    "roomSize": [
+                        "small",
+                        "medium",
+                        "large"
+                    ],
+                    "roomShape": [
+                        "square",
+                        "rectangular"
+                    ]
+                },
+                "hotel": {
+                    "roomType": [
+                        "lobby",
+                        "guest room",
+                        "bathroom",
+                        "kitchen",
+                        "conference room"
+                    ],
+                    "roomSize": [
+                        "medium",
+                        "large"
+                    ],
+                    "roomShape": [
+                        "square",
+                        "rectangular"
+                    ]
+                },
+                "medical": {
+                    "roomType": [
+                        "reception",
+                        "office",
+                        "examination room",
+                        "procedure room",
+                        "storage",
+                        "bathroom"
+                    ],
+                    "roomSize": [
+                        "small",
+                        "medium",
+                        "large"
+                    ],
+                    "roomShape": [
+                        "square",
+                        "rectangular"
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,98 @@
+{
+  "base": [
+    "Kill {CHARACTER}",
+    "Escort {CHARACTER}",
+    "Robbery {LOCATION}",
+    "Steal {THING}",
+    "Investigate {CHARACTER}",
+    "Rescue {CHARACTER}",
+    "Sabotage {LOCATION}",
+    "Investigate {LOCATION}",
+    "Transaction/Offload {THING}",
+    "Recruit/Bribe {CHARACTER}"
+  ],
+  "plot_complications": [
+    "{CHARACTER} is hunting you",
+    "They know you're coming",
+    "Heavy, well-armed security",
+    "You're on your own",
+    "Area is patrolled by police",
+    "Area is a common drug sale zone",
+    "You don't get paid/stiffed",
+    "Area loses electricity/power out",
+    "Flash Flood/Heavy Rain/Heavy Fog",
+    "Innocent bystanders all over the area"
+  ],
+  "location": [
+    "Movie Studios",
+    "Marketplace/Busy Public Area",
+    "Corporate Zone/Corporate HQ",
+    "Nightclub/Bar/Lounge",
+    "Government Building",
+    "Police Station",
+    "Nomad Outpost",
+    "Gang Hideout/Gang Hangout",
+    "The Net",
+    "Combat Zone"
+  ],
+  "location_complications": [
+    "Heavily fenced perimeter",
+    "Need ID/Password to get in",
+    "Heavy traffic on the way to location",
+    "Robbed/vandalized by {CHARACTER}",
+    "Fortified positions by security personnel",
+    "A No-Gun zone",
+    "Shootout with police and 3rd party",
+    "CCTV, Police surveillance is heavy",
+    "Celebrity sighting/Pop-up concert",
+    "Construction zone/street work/accident"
+  ],
+  "character": [
+    "Cop/Lawman",
+    "Booster/Gang Member",
+    "Netrunner/Hacker",
+    "Corporate",
+    "Average Citizen/Street Scum",
+    "Celebrity",
+    "Government Official",
+    "Gang Leader",
+    "Mercenary/Freelancer/Hitman",
+    "Nomad"
+  ],
+  "character_attitude": [
+    "Wants you dead",
+    "Generally dislikes you",
+    "Doesn't trust you",
+    "Cold and professional",
+    "Neutral attitude towards you",
+    "Thinks you could potentially be ally",
+    "Trusts in your decisions",
+    "Considers you a business partner",
+    "Considers you a good friend",
+    "Worships you"
+  ],
+  "thing": [
+    "Money/Credits",
+    "Weapons",
+    "Biological Samples",
+    "Drugs/Illegal Contraband",
+    "Cyberware",
+    "Digital Files/Software",
+    "Food/Fuel/Supplies",
+    "Vehicle",
+    "Exotic Animal",
+    "AI/Robot/Android/Drone"
+  ],
+  "thing_condition": [
+    "Broken, in pieces",
+    "Low-grade cheap materials",
+    "Functional. Utilitarian",
+    "Below-average quality",
+    "Average quality. Normal expectation",
+    "Good condition but used",
+    "Great condition, brand new",
+    "Enhanced, fairly sought after",
+    "Collector item, few remain in existence",
+    "One-of-a-kind, top quality"
+  ]
+}
