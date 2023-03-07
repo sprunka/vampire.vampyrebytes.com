@@ -20,7 +20,7 @@ $settings['public'] = $settings['root'] . '/public';
 $settings['error'] = [
 
     // Should be set to false in production
-    'display_error_details' => false,
+    'display_error_details' => true,
 
     // Parameter is passed to the default ErrorHandler
     // View in rendered output by enabling the "displayErrorDetails" setting.

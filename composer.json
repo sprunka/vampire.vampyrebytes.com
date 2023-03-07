@@ -3,7 +3,7 @@
     "description": "This is an API for use with Fifth Edition Vampire: the Masquerade",
     "minimum-stability": "dev",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "authors": [
         {
             "name": "Sean Prunka",
@@ -17,6 +17,7 @@
     "require": {
         "php": "^8.1",
         "ext-json": "*",
+        "ext-calendar": "*",
         "slim/slim": "^4.5",
         "slim/psr7": "^1.2",
         "php-di/php-di": "dev-master",

@@ -4,7 +4,7 @@
  * @OA\Info(
  *   title="OpenAPI Docs for VampyreBytes's Fifth Edition Vampire: the Masquerade API. -- Compatible with V5",
  *   description="This product was created under the Dark Pack license.",
- *   version="1.0.2",
+ *   version="1.1.0",
  *   @OA\Contact(
  *     name="Vampyre Bytes",
  *     email="admin@vampyrebytes.com"
@@ -26,6 +26,17 @@ use VampireAPI\Generate\NPC;
 use VampireAPI\Generate\Occupation;
 use VampireAPI\Generate\PhysicalDescription;
 use VampireAPI\Generate\Resonance;
+use VampireAPI\Generate\Vampires\TabulaRasa\Age;
+use VampireAPI\Generate\Vampires\TabulaRasa\Attribute;
+use VampireAPI\Generate\Vampires\TabulaRasa\Conviction;
+use VampireAPI\Generate\Vampires\TabulaRasa\Disciplines;
+use VampireAPI\Generate\Vampires\TabulaRasa\Generation;
+use VampireAPI\Generate\Vampires\TabulaRasa\Lesson;
+use VampireAPI\Generate\Vampires\TabulaRasa\Memory;
+use VampireAPI\Generate\Vampires\TabulaRasa\Predator;
+use VampireAPI\Generate\Vampires\TabulaRasa\Sect;
+use VampireAPI\Generate\Vampires\TabulaRasa\Clan;
+use VampireAPI\Generate\Vampires\TabulaRasa\Skill;
 use VampireAPI\Generate\Voice;
 
 return function (App $app) {
@@ -66,8 +77,32 @@ return function (App $app) {
         $response->getBody()->write(json_encode($swagger, JSON_PRETTY_PRINT));
         return $response->withHeader('Content-Type', 'application/json');
     });
+    /**
+     * @OA\Get(
+     *     path="/openapi.yaml",
+     *     summary="Returns the OpenAPI 3.0 documentation in YAML format.",
+     *     tags={"Documentation"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="The OpenAPI 3.0 documentation in YAML format. This documentation provides details on all
+     * available API endpoints, including request parameters, response data, and response codes. The file is generated
+     * dynamically based on the API documentation provided in the code base.",
+     *         @OA\MediaType(
+     *             mediaType="application/x-yaml",
+     *             @OA\Schema(
+     *                 type="string"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/openapi.yaml', function ($request, $response, $args) {
+        $swagger = OpenApi\Generator::scan([__DIR__]);
+        $response->getBody()->write($swagger->toYaml());
+        return $response->withHeader('Content-Type', 'application/x-yaml');
+    });
 
-// Name Generator
+//Individual Generators
     /**
      * @OA\Get(
      *     path="/name/{type}/{gender}",
@@ -85,7 +120,7 @@ return function (App $app) {
      *         required=true,
      *         @OA\Schema(
      *             type="string",
-     *             default="full",
+     *             default=null,
      *             nullable=true,
      *             enum={"full", "first", "last", null}
      *         )
@@ -122,7 +157,7 @@ return function (App $app) {
      * @OA\Get(
      *     path="/gender",
      *     summary="Generates a random gender",
-     *     tags={"Generators", "NPCs"},
+     *     tags={"Generators"},
      *     @OA\Response(
      *         response="200",
      *         description="Random gender",
@@ -157,7 +192,7 @@ return function (App $app) {
      * @OA\Get(
      *     path="/voice/{laban}",
      *     summary="Generates a Vocal pattern, based on, but not limited to, Laban Style for voice acting.",
-     *     tags={"Generators", "NPCs"},
+     *     tags={"Generators"},
      *     @OA\Parameter(
      *         name="laban",
      *         in="path",
@@ -191,7 +226,7 @@ return function (App $app) {
      * @OA\Get(
      *     path="/physical_description/{gender}",
      *     summary="Generates a physical description",
-     *     tags={"Generators", "NPCs"},
+     *     tags={"Generators"},
      *     @OA\Parameter(
      *         name="gender",
      *         in="path",
@@ -228,7 +263,7 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
      * @OA\Get(
      *     path="/resonance",
      *     summary="Generates a Blood Resonance (from a victim, for example).",
-     *     tags={"Generators", "NPCs"},
+     *     tags={"Generators"},
      *     @OA\Response(
      *         response="200",
      *         description="Generates a random blood resonance.",
@@ -250,7 +285,7 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
      * @OA\Get(
      *     path="/occupation",
      *     summary="Generate a random occupation",
-     *     tags={"Generators", "NPCs"},
+     *     tags={"Generators"},
      *     @OA\Response(
      *         response=200,
      *         description="Returns a JSON object with a random occupation",
@@ -267,11 +302,12 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
      */
     $app->get('/occupation', Occupation::class);
 
+//Collections
     /**
      * @OA\Get(
      *     path="/npc",
      *     summary="Generate a single NPC with randomized name, gender, physical descriptions, blood resonance, and voice",
-     *     tags={"Collections", "Generators", "NPCs"},
+     *     tags={"Collections"},
      *     @OA\Response(
      *         response="200",
      *         description="NPC information",
@@ -318,5 +354,504 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
      * )
      */
     $app->get('/npc', NPC::class);
+
+// Tabula Rasa CharGen
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/age/{type}",
+     *     summary="Generate a vampire's Birth Year using the Tabula Rasa system.",
+     *     tags={"Tabula Rasa - The Blood"},
+     *     @OA\Parameter(
+     *         name="type",
+     *         in="path",
+     *         description="Type of age to generate. 'specific' will generate a full date of Embrace, 'year' will give you a year, 'general' will be a range.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             default="specific",
+     *             enum={"specific", "year", "general"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="A randomly generated date of Embrace.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="range",
+     *                 type="string",
+     *                 example="1940 to 2005",
+     *                 description="The Embrace range of the vampire."
+     *             ),
+     *             @OA\Property(
+     *                 property="year",
+     *                 type="string",
+     *                 example="1985",
+     *                 description="The specific year of the vampire's Embrace, if 'type' parameter is set to 'year'."
+     *             ),
+     *             @OA\Property(
+     *                 property="exact_date",
+     *                 type="string",
+     *                 example="Friday, March 13th, 2020",
+     *                 description="The full deathdate (Date of Embrace) of the vampire, if 'type' parameter is set to 'specific'."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get(pattern: '/tabularasa/age/{type}', callable: Age::class);
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/generation/{modifier}",
+     *     summary="Generate a vampire's Generation using the Tabula Rasa system.",
+     *     tags={"Tabula Rasa - The Blood"},
+     *     @OA\Parameter(
+     *         name="modifier",
+     *         in="path",
+     *         description="The Age modifier for this vampire, if any. Possible values are: '2006 to now', '1940 to 2005', or '1780 to 1940'.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"2006 to now", "1940 to 2005", "1780 to 1940"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Generates a vampire's Generation based on the Tabula Rasa system.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="generation",
+     *                 type="string",
+     *                 example="13th",
+     *                 description="The vampire's Generation."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get(pattern: '/tabularasa/generation[/{modifier}]', callable: Generation::class);
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/sect/{modifier}",
+     *     summary="Generate a vampire's Sect using the Tabula Rasa system.",
+     *     tags={"Tabula Rasa - The Blood"},
+     *     @OA\Parameter(
+     *         name="modifier",
+     *         in="path",
+     *         description="The Age modifier for this vampire, if any. Possible values are: '2006 to now', '1940 to 2005', or '1780 to 1940'.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"2006 to now", "1940 to 2005", "1780 to 1940"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Generates a vampire's Sect based on the Tabula Rasa system.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="sect",
+     *                 type="string",
+     *                 example="Anarch",
+     *                 description="The vampire's Sect."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get(pattern: '/tabularasa/sect/{modifier}', callable: Sect::class);
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/clan/{sect}",
+     *     summary="Generate a vampire's Clan using the Tabula Rasa system.",
+     *     tags={"Tabula Rasa - The Blood"},
+     *     @OA\Parameter(
+     *         name="sect",
+     *         in="path",
+     *         description="The vampire's Sect. Possible values are: 'Anarch', 'Camarilla', or 'Other'.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"Anarch", "Camarilla", "Other"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Generates a vampire's Clan based on the Tabula Rasa system.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="clan",
+     *                 type="string",
+     *                 example="Brujah",
+     *                 description="The vampire's Clan."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get(pattern: '/tabularasa/clan/{sect}', callable: Clan::class);
+// Tabula Rasa Memories and Lessons
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/memory/{memory}",
+     *     summary="Generate a random memory based on the selected type",
+     *     tags={"Tabula Rasa - Memories & Lessons"},
+     *     @OA\Parameter(
+     *         name="memory",
+     *         in="path",
+     *         required=true,
+     *         description="The type of memory to generate",
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "what_was_happening",
+     *                 "who_was_with_you",
+     *                 "what_was_their_motive",
+     *                 "where_did_it_happen",
+     *                 "how_did_you_feel",
+     *                 "how_did_it_end"
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="A random memory of the selected type",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="{memory}",
+     *                 type="string",
+     *                 description="The generated memory"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Invalid memory type provided",
+     *         @OA\JsonContent(
+     *             example={"error": true, "message": "Invalid memory type provided"}
+     *         )
+     *     )
+     * )
+     */
+    $app->get(pattern: '/tabularasa/memory/{memory}', callable: Memory::class);
+
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/lesson/{type}",
+     *     summary="Generate a lesson for a mortal or kindred vampire",
+     *     tags={"Tabula Rasa - Memories & Lessons"},
+     *     @OA\Parameter(
+     *         name="type",
+     *         in="path",
+     *         description="The type of lesson to generate, either 'mortal' or 'kindred'",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"mortal", "kindred"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="lesson",
+     *                 type="string",
+     *                 description="The generated lesson"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Invalid input",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 description="Error message"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get(pattern: '/tabularasa/lesson/{type}', callable: Lesson::class);
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/memory",
+     *     summary="Generate a random memory by rolling once on each memory table",
+     *     tags={"Tabula Rasa - Memories & Lessons", "Collections"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of random memories",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="what_was_happening",
+     *                 type="string",
+     *                 description="The type of activity or event that was happening in the memory."
+     *             ),
+     *             @OA\Property(
+     *                 property="who_was_with_you",
+     *                 type="string",
+     *                 description="The person or people who were with you in the memory."
+     *             ),
+     *             @OA\Property(
+     *                 property="what_was_their_motive",
+     *                 type="string",
+     *                 description="The motive of the person or people who were with you in the memory."
+     *             ),
+     *             @OA\Property(
+     *                 property="where_did_it_happen",
+     *                 type="string",
+     *                 description="The location where the memory took place."
+     *             ),
+     *             @OA\Property(
+     *                 property="how_did_you_feel",
+     *                 type="string",
+     *                 description="The emotional state you were in during the memory."
+     *             ),
+     *             @OA\Property(
+     *                 property="how_did_it_end",
+     *                 type="string",
+     *                 description="The outcome or resolution of the memory."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get(pattern: '/tabularasa/memory', callable: Memory::class);
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/memory/type/{type}",
+     *     summary="Generate a random memory based on the selected type for Mortals or Kindred",
+     *     tags={"Tabula Rasa - Memories & Lessons", "Collections"},
+     *     @OA\Parameter(
+     *         name="type",
+     *         in="path",
+     *         required=true,
+     *         description="The type of entity for the memory generation",
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                 "mortal",
+     *                 "kindred"
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="A random memory of the selected type for the specified entity",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="memory",
+     *                 type="string",
+     *                 description="The generated memory"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Invalid entity type provided",
+     *         @OA\JsonContent(
+     *             example={"error": true, "message": "Invalid entity type provided"}
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/tabularasa/memory/type/{type}', Memory::class);
+
+// Tabula Rasa Attributes.
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/attribute",
+     *     summary="Generate a random attribute",
+     *     tags={"Tabula Rasa - Inspiration"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="attribute",
+     *                 type="string",
+     *                 description="The generated attribute"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/tabularasa/attribute', Attribute::class);
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/attributes/{type}",
+     *     summary="Generate a random attribute",
+     *     tags={"Tabula Rasa - Inspiration"},
+     *     @OA\Parameter(
+     *         name="type",
+     *         in="path",
+     *         description="The type of attribute to generate (physical, social, or mental)",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"physical", "social", "mental"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="attribute",
+     *                 type="string",
+     *                 description="The generated attribute"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/tabularasa/attributes/{type}', Attribute::class);
+// Tabula Rasa Skills.
+/**
+ * @OA\Get(
+ *     path="/tabularasa/skill",
+ *     summary="Generate a random skill",
+ *     tags={"Tabula Rasa - Inspiration"},
+ *     @OA\Response(
+ *         response="200",
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(
+ *                 property="skill",
+ *                 type="string",
+ *                 description="The generated skill"
+ *             )
+ *         )
+ *     )
+ * )
+ */
+    $app->get('/tabularasa/skill', Skill::class);
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/skills/{type}",
+     *     summary="Generate a random skill",
+     *     tags={"Tabula Rasa - Inspiration"},
+     *     @OA\Parameter(
+     *         name="type",
+     *         in="path",
+     *         description="The type of attribute to generate (physical, social, or mental)",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"physical", "social", "mental"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="attribute",
+     *                 type="string",
+     *                 description="The generated attribute"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/tabularasa/skills/{type}', Skill::class);
+// Tabula Rasa Convictions.
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/conviction",
+     *     summary="Generate a random conviction",
+     *     tags={"Tabula Rasa - Inspiration"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="ethic",
+     *                 type="string",
+     *                 description="Base Ethics of the Conviction"
+     *             ),
+     *             @OA\Property(
+     *                 property="frequency",
+     *                 type="string",
+     *                 description="Frequency of the Conviction"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/tabularasa/conviction', Conviction::class);
+// Tabula Rasa Predator Types.
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/predator_type",
+     *     summary="Generate a random predator type",
+     *     tags={"Tabula Rasa - Inspiration"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="predator_type",
+     *                 type="string",
+     *                 description="The generated predator type"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/tabularasa/predator_type', Predator::class);
+// Tabula Rasa Disciplines.
+    /**
+     * @OA\Get(
+     *     path="/tabularasa/discipline/{clan}",
+     *     summary="Generate a random discipline based on clan",
+     *     tags={"Tabula Rasa - Inspiration"},
+     *     @OA\Parameter(
+     *         name="clan",
+     *         in="path",
+     *         description="The clan to generate discipline from.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={
+     *                  "Banu Haqim", "Brujah", "Gangrel", "Hecata", "Lasombra",
+     *                  "Malkavian", "Ministry", "Nosferatu", "Ravnos", "Salubri",
+     *                  "Toreador", "Tremere", "Tzimisce", "Ventrue", "Caitiff"
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="clan",
+     *                 type="string",
+     *                 description="This Discipline is 'in-clan' for this Clan, which may differ from the input."
+     *             ),
+     *             @OA\Property(
+     *                 property="discipline",
+     *                 type="string",
+     *                 description="The generated discipline"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/tabularasa/discipline/{clan}', Disciplines::class);
 
 };
