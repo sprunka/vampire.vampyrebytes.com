@@ -272,7 +272,12 @@ class PhysicalDescription extends AbstractRoute
         ];
 
         // Generate!
-        $apparentAge = $this->faker->numberBetween(18, 84) . ' years old.';
+        //$apparentAge = $this->faker->numberBetween(18, 84) . ' years old.';
+        $apparentAge = $this->faker->biasedNumberBetween(18, 84, function($x) {
+            // Define a weighting function that gives higher weight to values in their 20s and 30s
+            $weight = array_fill(20, 20, 2) + array_fill(30, 10, 3) + array_fill(40, 25, 1) + array_fill(65, 20, 0.5);
+            return $weight[$x];
+        }) . ' years old.';
         $heightCM = $this->faker->numberBetween(147, 190);
         $heightIN = round($heightCM * 0.393700787);
         $weightKG = $this->faker->numberBetween(45, 100);
