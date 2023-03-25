@@ -4,7 +4,7 @@
  * @OA\Info(
  *   title="OpenAPI Docs for VampyreBytes's Fifth Edition Vampire: the Masquerade API. -- Compatible with V5",
  *   description="This product was created under the Dark Pack license.",
- *   version="1.1.1",
+ *   version="1.2.1",
  *   @OA\Contact(
  *     name="Vampyre Bytes",
  *     email="admin@vampyrebytes.com"
@@ -28,6 +28,7 @@ use VampireAPI\Generate\PhysicalDescription;
 use VampireAPI\Generate\Resonance;
 use VampireAPI\Generate\Vampires\TabulaRasa\Age;
 use VampireAPI\Generate\Vampires\TabulaRasa\Attribute;
+use VampireAPI\Generate\Vampires\TabulaRasa\Build;
 use VampireAPI\Generate\Vampires\TabulaRasa\Conviction;
 use VampireAPI\Generate\Vampires\TabulaRasa\Disciplines;
 use VampireAPI\Generate\Vampires\TabulaRasa\Generation;
@@ -354,6 +355,57 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
      * )
      */
     $app->get('/npc', NPC::class);
+    /**
+     * @OA\Get(
+     *     path="/tabula-rasa/character",
+     *     summary="Generate a single NPC with randomized name, gender, physical descriptions, blood resonance, and voice",
+     *     tags={"Collections", "Tabula Rasa Build"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="PC information",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="Alexandra"),
+     *             @OA\Property(property="gender", type="string"),
+     *             @OA\Property(
+     *                 property="physicalDescription",
+     *                 type="object",
+     *                 @OA\Property(property="height", type="string", example="71 inches"),
+     *                 @OA\Property(property="weight", type="string", example="150 pounds"),
+     *                 @OA\Property(property="bmi", type="number", format="float", example=26.27),
+     *                 @OA\Property(property="build", type="string", example="athletic"),
+     *                 @OA\Property(property="skinTone", type="string", example="fair"),
+     *                 @OA\Property(property="hairColor", type="string", example="brown"),
+     *                 @OA\Property(property="eyeColor", type="string", example="brown")
+     *             ),
+     *             @OA\Property(
+     *                 property="resonance",
+     *                 type="string",
+     *                 example="Choleric"
+     *             ),
+     *             @OA\Property(
+     *                 property="vocal_tips",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="base_voice",
+     *                     type="string",
+     *                     example="Dabbing - Light, Direct, Sudden",
+     *                     description="A string containing the base voice pattern, consisting of 3 factors and/or a Laban style."
+     *                 ),
+     *                 @OA\Property(property="add_ons", type="object",
+     *                     @OA\Property(property="Air Source", type="string", example="Nasal"),
+     *                     @OA\Property(property="Air Variant", type="string", example="Dry"),
+     *                     @OA\Property(property="Age Variant", type="string", example="Child"),
+     *                     @OA\Property(property="Body Size", type="string", example="Large"),
+     *                     @OA\Property(property="Tempo", type="string", example="Slow"),
+     *                     @OA\Property(property="Tone", type="string", example="Friendly"),
+     *                     @OA\Property(property="Impairments", type="string", example="Mild")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get(pattern: '/tabula-rasa/character', callable: Build::class);
 
 // Tabula Rasa CharGen
     /**
