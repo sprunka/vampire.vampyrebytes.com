@@ -287,7 +287,8 @@ class PhysicalDescription extends AbstractRoute
         $clothingStyle = ucwords($this->faker->randomElement($clothingStyleChoices));
 
         return [
-            'age' => $apparentAge,
+            'tableTitle' => 'Physical Description',
+            'apparentAge' => $apparentAge,
             'height' => $heightCM . ' cm / ' . $heightIN . ' inches.',
             'weight' => $weightKG . ' kg / ' . $weightLB . ' lbs.',
             'bmi' => $bmi,

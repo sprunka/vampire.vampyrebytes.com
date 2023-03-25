@@ -44,6 +44,7 @@ class Sect extends AbstractRoute
         }
 
         return [
+            'tableTitle' => 'Sect',
             'sect' => $sect,
         ];
     }

@@ -82,6 +82,7 @@ class Clan extends AbstractRoute
         }
 
         return [
+            'tableTitle' => 'Clan',
             'clan' => $clan,
         ];
     }

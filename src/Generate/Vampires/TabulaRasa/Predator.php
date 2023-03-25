@@ -37,6 +37,7 @@ class Predator extends AbstractRoute
         $predatorType = self::PREDATOR_TYPES[array_rand(self::PREDATOR_TYPES)];
 
         return [
+            'tableTitle' => 'Predator Type',
             'predator_type' => $predatorType,
         ];
     }

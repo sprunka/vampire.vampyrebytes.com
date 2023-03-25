@@ -75,6 +75,7 @@ class Name extends AbstractRoute
         }
 
         return [
+            'tableTitle' => 'Name',
             'name' => $name
         ];
     }

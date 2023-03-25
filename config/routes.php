@@ -4,7 +4,7 @@
  * @OA\Info(
  *   title="OpenAPI Docs for VampyreBytes's Fifth Edition Vampire: the Masquerade API. -- Compatible with V5",
  *   description="This product was created under the Dark Pack license.",
- *   version="1.1.0",
+ *   version="1.1.1",
  *   @OA\Contact(
  *     name="Vampyre Bytes",
  *     email="admin@vampyrebytes.com"

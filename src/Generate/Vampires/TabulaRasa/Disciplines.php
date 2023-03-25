@@ -61,6 +61,7 @@ class Disciplines extends AbstractRoute
         }
 
         return [
+            'tableTitle' => 'Discipline',
             'clan' => $clan,
             'discipline' => $discipline,
         ];

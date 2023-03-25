@@ -59,6 +59,7 @@ class Conviction extends AbstractRoute
             default => 'Never for a specific action',
         };
         return [
+            'tableTitle' => 'Conviction Data',
             'ethic' => $conviction,
             'frequency' => $frequency,
         ];
