@@ -16,15 +16,20 @@ class ListFactory
      * @return RecordList The created RecordList object.
      * @throws \InvalidArgumentException If $listType is not a child of RecordList or does not exist.
      */
-    public static function create(bool|array|string|stdClass $data = false, bool $autoSave = false, bool $createFile = false, string $listType = RecordList::class): RecordList
+    public static function create(
+        bool|array|string|stdClass $data = false,
+        bool $autoSave = false,
+        bool $createFile = false,
+        string $listType = RecordList::class
+    ): RecordList
     {
 
         if (!class_exists($listType)) {
-            throw new \InvalidArgumentException("$listType does not exist.");
+            throw new \InvalidArgumentException("{$listType} does not exist.");
         }
-        if (!is_subclass_of($listType, RecordList::class)) {
-            throw new \InvalidArgumentException("$listType must be a child of RecordList.");
-        }
+//        if (!is_subclass_of($listType, RecordList::class)) {
+//            throw new \InvalidArgumentException($listType . ' must be a child of '. RecordList::class . '.');
+//        }
 
         return new $listType($data, $autoSave, $createFile);
     }
