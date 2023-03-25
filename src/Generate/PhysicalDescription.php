@@ -272,12 +272,30 @@ class PhysicalDescription extends AbstractRoute
         ];
 
         // Generate!
-        //$apparentAge = $this->faker->numberBetween(18, 84) . ' years old.';
-        $apparentAge = $this->faker->biasedNumberBetween(18, 84, function($x) {
-            // Define a weighting function that gives higher weight to values in their 20s and 30s
-            $weight = array_fill(20, 20, 2) + array_fill(30, 10, 3) + array_fill(40, 25, 1) + array_fill(65, 20, 0.5);
-            return $weight[$x];
-        }) . ' years old.';
+        //Flat chance age is generated first, to initialize the variable.
+        $apparentAge = $this->faker->numberBetween(18, 84) . ' years old.';
+
+        //Now, let's try to generate that with a better, weighted range of Ages:
+        $ageWeights = [
+            ['min' => 18, 'max' => 20, 'weight' => 0.33],
+            ['min' => 21, 'max' => 39, 'weight' => 1],
+            ['min' => 40, 'max' => 50, 'weight' => 0.33],
+            ['min' => 51, 'max' => 84, 'weight' => 0.2],
+        ];
+        $randomWeight = mt_rand(1, 100);
+        $totalWeight = array_reduce($ageWeights, function ($carry, $ageRange) {
+            return $carry + $ageRange['weight'];
+        }, 0);
+        $targetWeight = $randomWeight / 100 * $totalWeight;
+        $cumulativeWeight = 0;
+        foreach ($ageWeights as $ageRange) {
+            $cumulativeWeight += $ageRange['weight'];
+            if ($targetWeight <= $cumulativeWeight) {
+                $apparentAge = $this->faker->numberBetween($ageRange['min'], $ageRange['max']) . ' years old.';
+                break;
+            }
+        }
+
         $heightCM = $this->faker->numberBetween(147, 190);
         $heightIN = round($heightCM * 0.393700787);
         $weightKG = $this->faker->numberBetween(45, 100);
