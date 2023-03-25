@@ -95,6 +95,7 @@ class Voice extends AbstractRoute
             }
 
         return [
+            'tableTitle' => 'Voice Style',
             'base_voice' => $all[rand(0,count($all)-1)],
             'add_ons' => $addOnsChosen,
         ];

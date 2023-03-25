@@ -27,7 +27,7 @@ class Resonance extends AbstractRoute
             'Sanguine', 'Melancholic', 'Choleric', 'Phlegmatic',
             'Sanguine', 'Melancholic', 'Choleric', 'Phlegmatic'
         ]);
-        return ['resonance' => $resonance];
+        return ['tableTitle' => 'Blood Resonance', 'resonance' => $resonance];
 
     }
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args = []): ResponseInterface

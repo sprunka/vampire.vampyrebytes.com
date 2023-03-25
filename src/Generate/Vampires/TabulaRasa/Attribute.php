@@ -39,10 +39,11 @@ class Attribute extends \VampireAPI\AbstractRoute
 
     public function generate($type = 'physical', $gender = '', $laban = false): array
     {
-        return match ($type) {
+        $return = match ($type) {
             'mental' => (new Mental())->generate(),
             'social' => (new Social())->generate(),
             default => (new Physical())->generate(),
         };
+        return ['tableTitle' => 'Attribute'] + $return;
     }
 }

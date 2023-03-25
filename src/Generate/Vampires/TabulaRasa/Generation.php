@@ -44,6 +44,7 @@ class Generation extends AbstractRoute
         }
 
         return [
+            'tableTitle' => 'Generation',
             'generation' => $generation,
         ];
     }
