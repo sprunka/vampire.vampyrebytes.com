@@ -7,8 +7,8 @@ use Faker\Generator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use VampireAPI\Generate\NPC;
-use VampireAPI\Generic\ListFactory;
-use VampireAPI\Generic\RecordFactory;
+use CommonRoutes\Generic\ListFactory;
+use CommonRoutes\Generic\RecordFactory;
 
 class Build extends \VampireAPI\AbstractRoute
 {

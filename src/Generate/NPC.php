@@ -8,12 +8,13 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 use VampireAPI\AbstractRoute;
-use VampireAPI\Generate\Gender;
-use VampireAPI\Generate\Name;
-use VampireAPI\Generate\PhysicalDescription;
-use VampireAPI\Generate\Voice;
-use VampireAPI\Generic\ListFactory;
-use VampireAPI\Generic\RecordFactory;
+use CommonRoutes\Generate\Gender;
+use CommonRoutes\Generate\Name;
+use CommonRoutes\Generate\PhysicalDescription;
+use CommonRoutes\Generate\Occupation;
+use CommonRoutes\Generate\Voice;
+use CommonRoutes\Generic\ListFactory;
+use CommonRoutes\Generic\RecordFactory;
 
 
 class NPC extends AbstractRoute

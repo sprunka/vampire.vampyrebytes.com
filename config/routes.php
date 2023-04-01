@@ -20,11 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 
-use VampireAPI\Generate\Gender;
-use VampireAPI\Generate\Name;
 use VampireAPI\Generate\NPC;
-use VampireAPI\Generate\Occupation;
-use VampireAPI\Generate\PhysicalDescription;
 use VampireAPI\Generate\Resonance;
 use VampireAPI\Generate\Vampires\TabulaRasa\Age;
 use VampireAPI\Generate\Vampires\TabulaRasa\Attribute;
@@ -38,7 +34,11 @@ use VampireAPI\Generate\Vampires\TabulaRasa\Predator;
 use VampireAPI\Generate\Vampires\TabulaRasa\Sect;
 use VampireAPI\Generate\Vampires\TabulaRasa\Clan;
 use VampireAPI\Generate\Vampires\TabulaRasa\Skill;
-use VampireAPI\Generate\Voice;
+use CommonRoutes\Generate\Gender;
+use CommonRoutes\Generate\Name;
+use CommonRoutes\Generate\Occupation;
+use CommonRoutes\Generate\PhysicalDescription;
+use CommonRoutes\Generate\Voice;
 
 return function (App $app) {
     $app->get('/', function (
