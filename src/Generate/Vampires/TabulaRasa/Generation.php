@@ -2,9 +2,9 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
+use CommonRoutes\AbstractRoute;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\AbstractRoute;
 
 class Generation extends AbstractRoute
 {
@@ -17,7 +17,7 @@ class Generation extends AbstractRoute
         ResponseInterface $response,
         array $args = []
     ): ResponseInterface {
-        $modifier  = (strtolower($args['modifier']) ?? "1940 to 2005");
+        $modifier = (strtolower($args['modifier']) ?? "1940 to 2005");
         $laban = ($modifier === '2006 to now');
 
         return parent::outputResponse($response, $this->generate(laban: $laban));

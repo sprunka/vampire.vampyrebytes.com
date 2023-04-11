@@ -2,15 +2,13 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
-use Faker\Factory;
-use Faker\Generator;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\Generate\NPC;
+use CommonRoutes\AbstractRoute;
 use CommonRoutes\Generic\ListFactory;
 use CommonRoutes\Generic\RecordFactory;
+use Faker\Factory;
+use VampireAPI\Generate\NPC;
 
-class Build extends \VampireAPI\AbstractRoute
+class Build extends AbstractRoute
 {
     protected Factory $fakerFactory;
     protected ListFactory $listFactory;
@@ -21,17 +19,6 @@ class Build extends \VampireAPI\AbstractRoute
         $this->fakerFactory = $fakerFactory;
         $this->listFactory = $listFactory;
         $this->recordFactory = $recordFactory;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args = []
-    ): ResponseInterface {
-        return parent::outputResponse($response, $this->generate());
     }
 
     public function generate($type = '', $gender = '', $laban = false): array
@@ -56,7 +43,7 @@ class Build extends \VampireAPI\AbstractRoute
             'vampire_details' => [
                 'embrace' => array_merge($ageRange, $generation),
                 'blood' => array_merge($sect, $clan)
-                ]
-            ];
+            ]
+        ];
     }
 }

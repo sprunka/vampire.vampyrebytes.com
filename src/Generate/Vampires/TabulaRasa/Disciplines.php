@@ -2,9 +2,9 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
+use CommonRoutes\AbstractRoute;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\AbstractRoute;
 
 class Disciplines extends AbstractRoute
 {
@@ -50,14 +50,14 @@ class Disciplines extends AbstractRoute
                 $clan = (new Clan())->generate(type: $sect)['clan'];
             } while (!array_key_exists($clan, self::CLAN_TO_DISCIPLINES));
             $oldRoll = $roll;
-            $roll = rand(1,9);
+            $roll = rand(1, 9);
         }
 
         $disciplines = self::CLAN_TO_DISCIPLINES[$clan];
         $discipline = $disciplines[floor(($roll - 1) / 3)];
 
         if ($oldRoll === 10) {
-            $discipline .=  ' or Player\'s Choice';
+            $discipline .= ' or Player\'s Choice';
         }
 
         return [

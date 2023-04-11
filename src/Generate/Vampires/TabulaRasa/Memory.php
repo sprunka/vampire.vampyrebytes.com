@@ -2,9 +2,9 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
+use CommonRoutes\AbstractRoute;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\AbstractRoute;
 use VampireAPI\Generate\Vampires\TabulaRasa\Lessons\WhatDidYouLearnHuman;
 use VampireAPI\Generate\Vampires\TabulaRasa\Lessons\WhatDidYouLearnVampire;
 use VampireAPI\Generate\Vampires\TabulaRasa\Memories\HowDidItEnd;
@@ -42,7 +42,7 @@ class Memory extends AbstractRoute
 
         if (isset($args['type'])) {
             $type = strtolower($args['type']);
-                $memories = array_merge($memories, $this->generate($type));
+            $memories = array_merge($memories, $this->generate($type));
         }
 
         return parent::outputResponse($response, $memories);
@@ -74,8 +74,8 @@ class Memory extends AbstractRoute
                 break;
             case 'mortal':
             default:
-            $generator = new WhatDidYouLearnHuman();
-            break;
+                $generator = new WhatDidYouLearnHuman();
+                break;
         }
 
         return $generator->generate();

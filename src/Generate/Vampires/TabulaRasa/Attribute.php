@@ -2,13 +2,14 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
+use CommonRoutes\AbstractRoute;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use VampireAPI\Generate\Vampires\TabulaRasa\Attributes\Mental;
 use VampireAPI\Generate\Vampires\TabulaRasa\Attributes\Physical;
 use VampireAPI\Generate\Vampires\TabulaRasa\Attributes\Social;
 
-class Attribute extends \VampireAPI\AbstractRoute
+class Attribute extends AbstractRoute
 {
 
     /**
@@ -22,7 +23,7 @@ class Attribute extends \VampireAPI\AbstractRoute
         $type = strtolower($args['type'] ?? 'rand');
 
         if ($type === 'rand') {
-            $choice = rand(1,10);
+            $choice = rand(1, 10);
             if ($choice === 10) {
                 $returnArray = ['any_attribute' => 'Player\'s Choice'];
                 return parent::outputResponse($response, $returnArray);
