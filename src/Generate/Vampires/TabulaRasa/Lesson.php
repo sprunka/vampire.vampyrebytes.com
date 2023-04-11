@@ -2,9 +2,9 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
+use CommonRoutes\AbstractRoute;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\AbstractRoute;
 use VampireAPI\Generate\Vampires\TabulaRasa\Lessons\WhatDidYouLearnHuman;
 use VampireAPI\Generate\Vampires\TabulaRasa\Lessons\WhatDidYouLearnVampire;
 

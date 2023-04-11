@@ -2,19 +2,16 @@
 
 namespace VampireAPI\Generate;
 
-use Faker\Factory;
-use Faker\Generator;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-
-use VampireAPI\AbstractRoute;
+use CommonRoutes\AbstractRoute;
 use CommonRoutes\Generate\Gender;
 use CommonRoutes\Generate\Name;
-use CommonRoutes\Generate\PhysicalDescription;
 use CommonRoutes\Generate\Occupation;
+use CommonRoutes\Generate\PhysicalDescription;
 use CommonRoutes\Generate\Voice;
 use CommonRoutes\Generic\ListFactory;
 use CommonRoutes\Generic\RecordFactory;
+use Faker\Factory;
+use Faker\Generator;
 
 
 class NPC extends AbstractRoute
@@ -32,18 +29,6 @@ class NPC extends AbstractRoute
         $this->recordFactory = $recordFactory;
     }
 
-
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @param $args
-     * @return Response
-     */
-    public function __invoke(Request $request, Response $response, array $args = []) : Response
-    {
-        return parent::outputResponse($response, $this->generate());
-    }
-
     public function generate($type = '', $gender = '', $laban = false): array
     {
         $genderArr = (new Gender($this->fakerFactory))->generate();
@@ -55,7 +40,8 @@ class NPC extends AbstractRoute
             $tempGender = $genderText;
         }
 
-        $name = (new Name($this->fakerFactory, $this->listFactory, $this->recordFactory))->generate(type: 'full', gender: $tempGender);
+        $name = (new Name($this->fakerFactory, $this->listFactory, $this->recordFactory))->generate(type: 'full',
+            gender: $tempGender);
 
         $physical = (new PhysicalDescription($this->fakerFactory))->generate(gender: $tempGender);
 
@@ -63,7 +49,7 @@ class NPC extends AbstractRoute
 
         $resonance = (new Resonance($this->fakerFactory))->generate();
 
-        $laban = ( rand(1,2) % 2 === 0 );
+        $laban = (rand(1, 2) % 2 === 0);
         $voice = (new Voice($this->fakerFactory))->generate(laban: $laban);
 
         $return = array_merge($name, $genderArr, $occupation, $physical, $resonance, ['vocal_tips' => $voice]);

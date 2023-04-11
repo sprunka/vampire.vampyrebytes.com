@@ -2,9 +2,7 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\AbstractRoute;
+use CommonRoutes\AbstractRoute;
 
 class Predator extends AbstractRoute
 {
@@ -20,17 +18,6 @@ class Predator extends AbstractRoute
         9 => 'Scene Queen',
         0 => 'Siren',
     ];
-
-    /**
-     * @inheritDoc
-     */
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args = []
-    ): ResponseInterface {
-        return parent::outputResponse($response, $this->generate());
-    }
 
     public function generate($type = '', $gender = '', $laban = false): array
     {

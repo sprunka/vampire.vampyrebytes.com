@@ -2,7 +2,7 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
-use VampireAPI\AbstractRoute;
+use CommonRoutes\AbstractRoute;
 
 abstract class AbstractTable extends AbstractRoute
 {
