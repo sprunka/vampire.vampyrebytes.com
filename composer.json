@@ -33,7 +33,7 @@
         "sprunka/common-routes": "*"
     },
     "require-dev" : {
-        "phpunit/phpunit": "^9.4",
+        "phpunit/phpunit": "9.6.6",
         "roave/security-advisories": "dev-latest"
     },
     "autoload": {
