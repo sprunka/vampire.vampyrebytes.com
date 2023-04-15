@@ -54,7 +54,5 @@ class NPC extends AbstractRoute
 
         $return = array_merge($name, $genderArr, $occupation, $physical, $resonance, ['vocal_tips' => $voice]);
         return ['tableTitle' => 'NPC BLOCK'] + $return;
-
-        //return array_merge(['tableTitle'=>'NPC BLOCK'], $name, $genderArr, $occupation, $physical, $resonance, ['vocal_tips' => $voice]);
     }
 }
