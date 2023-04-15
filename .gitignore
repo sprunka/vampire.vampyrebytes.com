@@ -2,3 +2,7 @@
 /vendor/*
 /.phpunit.result.cache
 tests/.phpunit.cache/
+
+public/router.php
+
+public/server.sh
