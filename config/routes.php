@@ -39,6 +39,7 @@ use CommonRoutes\Generate\Name;
 use CommonRoutes\Generate\Occupation;
 use CommonRoutes\Generate\PhysicalDescription;
 use CommonRoutes\Generate\Voice;
+use VampireAPI\Generate\Dice\Pool;
 
 return function (App $app) {
     $app->get('/', function (
@@ -102,6 +103,95 @@ return function (App $app) {
         $response->getBody()->write($swagger->toYaml());
         return $response->withHeader('Content-Type', 'application/x-yaml');
     });
+
+// Dice Roller!
+    /**
+     * @OA\Get(
+     *     path="/dice_pool/{total}/{hunger}/{difficulty}",
+     *     summary="Rolls a pool of V5 dice including hunger dice against a difficulty.",
+     *     tags={"Dice Roller"},
+     *     @OA\Parameter(
+     *         name="total",
+     *         in="path",
+     *         description="Total number of dice to roll.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="hunger",
+     *         in="path",
+     *         description="Number of hunger dice in the pool.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="difficulty",
+     *         in="path",
+     *         description="The difficulty threshold for the roll to be considered successful.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Dice roll results",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="regularResults",
+     *                 type="array",
+     *                 @OA\Items(type="integer"),
+     *                 description="Results of the regular dice rolls."
+     *             ),
+     *             @OA\Property(
+     *                 property="hungerResults",
+     *                 type="array",
+     *                 @OA\Items(type="integer"),
+     *                 description="Results of the hunger dice rolls."
+     *             ),
+     *             @OA\Property(
+     *                 property="totalSuccesses",
+     *                 type="integer",
+     *                 description="Total number of successes achieved."
+     *             ),
+     *             @OA\Property(
+     *                 property="criticalSuccesses",
+     *                 type="integer",
+     *                 description="Number of critical successes achieved."
+     *             ),
+     *             @OA\Property(
+     *                 property="hungerCriticals",
+     *                 type="integer",
+     *                 description="Number of critical successes achieved with hunger dice."
+     *             ),
+     *             @OA\Property(
+     *                 property="failures",
+     *                 type="integer",
+     *                 description="Number of failures, specifically from hunger dice."
+     *             ),
+     *             @OA\Property(
+     *                 property="bestialFailure",
+     *                 type="boolean",
+     *                 description="Indicates if a bestial failure occurred."
+     *             ),
+     *             @OA\Property(
+     *                 property="messyCritical",
+     *                 type="boolean",
+     *                 description="Indicates if a messy critical occurred."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/dice_pool/{total}/{hunger}/{difficulty}', Pool::class);
 
 //Individual Generators
     /**
