@@ -2,12 +2,12 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
+use CommonRoutes\AbstractRoute;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\AbstractRoute;
+use VampireAPI\Generate\Vampires\TabulaRasa\Skills\Mental;
 use VampireAPI\Generate\Vampires\TabulaRasa\Skills\Physical;
 use VampireAPI\Generate\Vampires\TabulaRasa\Skills\Social;
-use VampireAPI\Generate\Vampires\TabulaRasa\Skills\Mental;
 
 class Skill extends AbstractRoute
 {
@@ -23,7 +23,7 @@ class Skill extends AbstractRoute
         $type = strtolower($args['type'] ?? 'rand');
 
         if ($type === 'rand') {
-            $choice = rand(1,10);
+            $choice = rand(1, 10);
             if ($choice === 10) {
                 $returnArray = ['any_skill' => 'Player\'s Choice'];
                 return parent::outputResponse($response, $returnArray);

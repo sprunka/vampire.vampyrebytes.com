@@ -2,11 +2,11 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
+use CommonRoutes\AbstractRoute;
 use DateTime;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\AbstractRoute;
 
 class Age extends AbstractRoute
 {
@@ -31,9 +31,27 @@ class Age extends AbstractRoute
     public function generate($type = 'specific', $gender = '', $laban = false): array
     {
         $ages = [
-            '2006 to now', '2006 to now', '2006 to now',
-            '1940 to 2005', '1940 to 2005', '1940 to 2005', '1940 to 2005', '1940 to 2005', '1940 to 2005', '1940 to 2005', '1940 to 2005',
-            '1780 to 1940', '1780 to 1940', '1780 to 1940', '1780 to 1940', '1780 to 1940', '1780 to 1940', '1780 to 1940', '1780 to 1940', '1780 to 1940', '1780 to 1940'
+            '2006 to now',
+            '2006 to now',
+            '2006 to now',
+            '1940 to 2005',
+            '1940 to 2005',
+            '1940 to 2005',
+            '1940 to 2005',
+            '1940 to 2005',
+            '1940 to 2005',
+            '1940 to 2005',
+            '1940 to 2005',
+            '1780 to 1940',
+            '1780 to 1940',
+            '1780 to 1940',
+            '1780 to 1940',
+            '1780 to 1940',
+            '1780 to 1940',
+            '1780 to 1940',
+            '1780 to 1940',
+            '1780 to 1940',
+            '1780 to 1940'
         ];
 
         $specificYears = [
@@ -47,7 +65,7 @@ class Age extends AbstractRoute
         if ($type === "specific") {
             $year = $specificYears[$yearRange][array_rand($specificYears[$yearRange])];
             $month = rand(1, 12);
-            $daysInMonth = (int) date('t', mktime(0, 0, 0, $month, 1, $year));
+            $daysInMonth = (int)date('t', mktime(0, 0, 0, $month, 1, $year));
             $day = rand(1, $daysInMonth);
             try {
                 $birthdate = DateTime::createFromFormat('Y-m-d', "$year-$month-$day");

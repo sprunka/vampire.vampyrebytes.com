@@ -2,9 +2,7 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use VampireAPI\AbstractRoute;
+use CommonRoutes\AbstractRoute;
 
 class Conviction extends AbstractRoute
 {
@@ -33,17 +31,6 @@ class Conviction extends AbstractRoute
         9 => 'Obedience',
         0 => 'Vows',
     ];
-
-    /**
-     * @inheritDoc
-     */
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args = []
-    ): ResponseInterface {
-        return parent::outputResponse($response, $this->generate());
-    }
 
     public function generate($type = '', $gender = '', $laban = false): array
     {

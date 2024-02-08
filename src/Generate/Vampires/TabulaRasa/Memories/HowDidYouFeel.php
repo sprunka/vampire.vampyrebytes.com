@@ -2,8 +2,6 @@
 
 namespace VampireAPI\Generate\Vampires\TabulaRasa\Memories;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use VampireAPI\Generate\Vampires\TabulaRasa\AbstractTable;
 
 class HowDidYouFeel extends AbstractTable
@@ -20,17 +18,6 @@ class HowDidYouFeel extends AbstractTable
         'Disgust',
         'Confused'
     ];
-
-    /**
-     * @inheritDoc
-     */
-    public function __invoke(
-        ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args = []
-    ): ResponseInterface {
-        return parent::outputResponse($response, $this->generate());
-    }
 
     public function generate($type = '', $gender = '', $laban = false): array
     {
