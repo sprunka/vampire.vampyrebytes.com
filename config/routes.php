@@ -21,6 +21,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 
 use VampireAPI\Generate\NPC;
+use VampireAPI\Generate\Portent;
 use VampireAPI\Generate\Resonance;
 use VampireAPI\Generate\Vampires\TabulaRasa\Age;
 use VampireAPI\Generate\Vampires\TabulaRasa\Attribute;
@@ -995,5 +996,81 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
      * )
      */
     $app->get('/tabularasa/discipline/{clan}', Disciplines::class);
+
+//Extra
+    /**
+     * @OA\Get(
+     *     path="/portent/{type}",
+     *     summary="Generate a single portent from a specified data source.",
+     *     description="Returns a pseudo-randomly selected portent from one of three data sources based on the specified 'type' parameter.
+     *                  'raw' pulls from canonical data (Rules As Written).
+     *                  'gpt' pulls from a dataset created by Chat-GPT.
+     *                  'mixed' currently selects one portent from each source, then pseudo-randomly chooses one of those two.
+     *                  Any other value for 'type' returns a placeholder message.",
+     *     tags={"Portents"},
+     *     @OA\Parameter(
+     *         name="type",
+     *         in="path",
+     *         description="Data source type for generating a portent. Possible values are 'raw' for canonical data, 'gpt' for AI-generated data, 'mixed' for a combined selection, or any other value to receive a placeholder message.",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"raw", "gpt", "mixed"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="A randomly generated portent message based on the specified data source or a placeholder message if an unknown type is provided.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="tableTitle",
+     *                 type="string",
+     *                 example="Portent",
+     *                 description="Title of the returned data."
+     *             ),
+     *             @OA\Property(
+     *                 property="portent",
+     *                 type="string",
+     *                 example="Letters burn out on the neon VACATION sign at the travel agent, spelling CA I N",
+     *                 description="The generated portent message."
+     *             )
+     *         ),
+     *         @OA\Examples(
+     *             example="raw",
+     *             summary="Response from 'raw' data source",
+     *             value={
+     *                 "tableTitle": "Portent",
+     *                 "portent": "Letters burn out on the neon VACATION sign at the travel agent, spelling CA I N"
+     *             }
+     *         ),
+     *         @OA\Examples(
+     *             example="gpt",
+     *             summary="Response from 'gpt' data source",
+     *             value={
+     *                 "tableTitle": "Portent",
+     *                 "portent": "The street signs around the character temporarily shift into ancient runes before returning to normal."
+     *             }
+     *         ),
+     *         @OA\Examples(
+     *             example="mixed",
+     *             summary="Response from 'mixed' data source",
+     *             value={
+     *                 "tableTitle": "Portent",
+     *                 "portent": "A flower wilts and dies whenever the character approaches it, but blooms again as soon as they leave."
+     *             }
+     *         ),
+     *         @OA\Examples(
+     *             example="unknown",
+     *             summary="Response for unknown 'type'",
+     *             value={
+     *                 "tableTitle": "Portent",
+     *                 "portent": "Custom Patterns not Implemented Yet"
+     *             }
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/portent/{type}', Portent::class);
 
 };
