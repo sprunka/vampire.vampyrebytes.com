@@ -23,6 +23,7 @@ use Slim\App;
 use VampireAPI\Generate\NPC;
 use VampireAPI\Generate\Portent;
 use VampireAPI\Generate\Resonance;
+use VampireAPI\Generate\Vampires\Clan as WeightedClan;
 use VampireAPI\Generate\Vampires\TabulaRasa\Age;
 use VampireAPI\Generate\Vampires\TabulaRasa\Attribute;
 use VampireAPI\Generate\Vampires\TabulaRasa\Build;
@@ -1072,5 +1073,36 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
      * )
      */
     $app->get('/portent/{type}', Portent::class);
+    /**
+     * @OA\Get(
+     *     path="/clan",
+     *     summary="Generate a random clan and sect based on weighted distribution",
+     *     tags={"Vampire Generation"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="tableTitle",
+     *                 type="string",
+     *                 example="Clan & Sect",
+     *                 description="The title of the table displaying the clan and sect"
+     *             ),
+     *             @OA\Property(
+     *                 property="sect",
+     *                 type="string",
+     *                 description="The generated sect, weighted by clan"
+     *             ),
+     *             @OA\Property(
+     *                 property="clan",
+     *                 type="string",
+     *                 description="The generated clan, selected based on weighted distribution"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/clan', WeightedClan::class);
 
 };
