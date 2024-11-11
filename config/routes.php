@@ -355,18 +355,31 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
     /**
      * @OA\Get(
      *     path="/resonance",
-     *     summary="Generates a Blood Resonance (from a victim, for example).",
+     *     summary="Generates a Blood Resonance along with its temperament.",
      *     tags={"Generators"},
      *     @OA\Response(
      *         response="200",
-     *         description="Generates a random blood resonance.",
+     *         description="Returns a blood resonance and its associated temperament.",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
+     *                 property="tableTitle",
+     *                 type="string",
+     *                 example="Blood Resonance"
+     *             ),
+     *             @OA\Property(
+     *                 property="temperament",
+     *                 type="string",
+     *                 description="Describes the intensity or fleeting nature of the resonance.",
+     *                 example="Fleeting",
+     *                 enum={"Well-balanced, negligible", "Fleeting", "Intense", "Acute"}
+     *             ),
+     *             @OA\Property(
      *                 property="resonance",
      *                 type="string",
+     *                 description="The type of blood resonance.",
      *                 example="Choleric",
-     *                 enum={"Sanguine", "Choleric", "Melancholic", "Phlegmatic", "Empty"}
+     *                 enum={"Phlegmatic", "Melancholic", "Choleric", "Sanguine"}
      *             )
      *         )
      *     )
