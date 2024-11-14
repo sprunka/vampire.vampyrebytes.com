@@ -1117,5 +1117,64 @@ It's important to use language thoughtfully and respectfully, and to avoid stigm
      * )
      */
     $app->get('/clan', WeightedClan::class);
+    /**
+     * @OA\Get(
+     *     path="/death_date/{age}/{specificity}",
+     *     summary="Generate a vampire's death date based on age bracket and specificity",
+     *     tags={"Vampire Generation"},
+     *     @OA\Parameter(
+     *         name="age",
+     *         in="path",
+     *         required=true,
+     *         description="Age bracket for the vampire's death date. Options: 'choose' (random), 'childer', 'fledgling', 'neonate', 'ancilla', 'elder', 'methuselah'.",
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"null", "choose", "childer", "fledgling", "neonate", "ancilla", "elder", "methuselah"}
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="specificity",
+     *         in="path",
+     *         required=true,
+     *         description="Specificity of the generated date. Options: 'general' (age rank and year range), 'specific' (exact date), 'year' (a single year within the range).",
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"general", "specific", "year"}
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful response with generated vampire death date details",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="rank",
+     *                 type="string",
+     *                 example="Ancilla",
+     *                 description="The age rank (e.g., 'Ancilla', 'Elder') of the vampire."
+     *             ),
+     *             @OA\Property(
+     *                 property="range",
+     *                 type="string",
+     *                 example="1780 to 1940",
+     *                 description="The year range for the selected age bracket."
+     *             ),
+     *             @OA\Property(
+     *                 property="year",
+     *                 type="integer",
+     *                 example=1933,
+     *                 description="A single year within the range, provided if 'year' specificity is requested."
+     *             ),
+     *             @OA\Property(
+     *                 property="exact_date",
+     *                 type="string",
+     *                 example="Thursday, December 7th, 1933 CE",
+     *                 description="An exact date within the range, provided if 'specific' specificity is requested."
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    $app->get('/death_date/{age}/{specificity}', \VampireAPI\Generate\Vampires\Age::class);
 
 };
