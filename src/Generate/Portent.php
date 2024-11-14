@@ -58,7 +58,7 @@ $supportTypes = ['raw', 'gpt', 'mixed'];
         }
 
         $result = $type;
-        $portentRoll = rand(0, 50);
+        $portentRoll = rand(0, 49);
         if ($type === 'raw') {
             $result = $this->raw_portents->getRecordByKey('events')->{$portentRoll};
         }

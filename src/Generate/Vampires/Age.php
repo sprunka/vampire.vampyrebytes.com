@@ -18,8 +18,8 @@ class Age extends AbstractRoute
         ResponseInterface $response,
         array $args = []
     ): ResponseInterface {
-        $type = strtolower($args['specificity']) ?? 'general';
         $gender = strtolower($args['age'] ?? null); // Fetch and lower the case for age bracket
+        $type = strtolower($args['specificity']) ?? 'general';
         return $this->outputResponse($response, $this->generate(type: $type, gender: $gender));
     }
 
